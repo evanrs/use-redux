@@ -1,0 +1,19 @@
+{
+  "name": "use-redux",
+  "version": "1.0.0",
+  "description": "A project using redux, learning by doing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evanrs/use-redux.git"
+  },
+  "author": "Evan Schneider",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evanrs/use-redux/issues"
+  },
+  "homepage": "https://github.com/evanrs/use-redux#readme"
+}
