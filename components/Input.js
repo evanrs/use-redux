@@ -20,6 +20,7 @@ export default class Input extends Component {
           type="text"
           value={this.state.text}
           onChange={event => this.setState({text: event.target.value})}
+          style={{width: '100%'}}
         />
       </form>
     )

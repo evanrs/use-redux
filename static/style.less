@@ -1,0 +1,89 @@
+@size-icon: 30px;
+@background-body: #fff;
+
+.check {
+  width: @size-icon;
+  height: @size-icon;
+  background: #ddd;
+  border-radius: 50%;
+  position: relative;
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // transform: translateX(-50%) translateY(-50%);
+  box-shadow: 0px -4px 4px 0px rgba(255, 255, 255, 0), inset 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+
+  &:before {
+    content: "";
+    background: @background-body;
+    position: absolute;
+    border-radius: 50%;
+    top: 8%;
+    left: 9%;
+    right: 9%;
+    bottom: 11%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-color: #60b247;
+    border-width: 0;
+    border-style: solid;
+  }
+
+  .check-icon {
+    position: absolute;
+    z-index: 3;
+    top: -35%;
+    left: 28%;
+    width: 45%;
+    fill: #e5e5e5;
+  }
+
+
+  &.active {
+    &:after {
+      transition: 0.1s ease-out all;
+      border-width: (@size-icon / 2);
+    }
+
+    .check-icon {
+      fill: #fff;
+      animation: bounce 0.2s;
+      animation-delay: 0.08s;
+    }
+  }
+
+  &.inactive {
+    &:after {
+      transition: 0.1s ease-out all;
+    }
+
+    .check-icon {
+      animation: unbounce 0.3s;
+      animation-delay: 0.08s;
+    }
+  }
+
+}
+
+
+@keyframes unbounce {
+  0% { transform: scale(1.2); }
+  50% { transform: scale(0.8); }
+  100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
