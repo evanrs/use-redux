@@ -3,40 +3,18 @@ import 'babel-core/polyfill';
 import React from 'react';
 
 class Root extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  setClicks() {
-    this.setState({
-      clicks: store.getState()
-    })
-  }
-
-  componentWillMount() {
-    this.setClicks();
-    this.unsubscribe = store.subscribe(this.setClicks.bind(this))
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
   render() {
     let style = {
       fontSize: 100,
       position: 'fixed', top: '50%', left: '50%',
-      transform: 'translate(-50%, -50%)'
+      transform: 'translate(-50%, -50%)',
+      maxWidth: '100%'
     }
 
     return (
-      <div style={style}>
-        <span
-          onClick={event => store.dispatch(increment())}>
-          {Array(this.state.clicks + 1).fill().map(v => "💯")}
-        </span>
+      <div style={style}
+           onClick={event => this.props.dispatch(increment())}>
+        {Array(this.props.count + 1).fill().map(v => " 💯 ")}
       </div>
     )
   }
@@ -44,10 +22,10 @@ class Root extends React.Component {
 
 import {createStore} from 'redux';
 
-function counter(state = 0, action) {
+function counter(state = {count: 0}, action) {
   switch (action.type) {
-    case 'INCREMENT': return state + 1;
-    case 'DECREMENT': return state - 1;
+    case 'INCREMENT': return {count: state.count + 1};
+    case 'DECREMENT': return {count: state.count - 1};
     default: return state;
   }
 }
@@ -58,6 +36,10 @@ function increment () {
   return {type: 'INCREMENT'};
 }
 
-// import {Provider} from 'react-redux';
+import {Provider, connect} from 'react-redux';
 
-React.render(<Root />, document.getElementById('root'));
+React.render(
+    <Provider store={store}>
+      {() => React.createElement(connect(state => state)(Root))}
+    </Provider>
+  , document.getElementById('root'));
