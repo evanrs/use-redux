@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/evanrs/use-redux#readme",
   "dependencies": {
+    "less": "^2.5.1",
     "react": "^0.13.3",
     "react-redux": "^2.0.0",
     "redux": "^2.0.0"

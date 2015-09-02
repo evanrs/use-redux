@@ -1,5 +1,10 @@
+import less from 'less';
+
 import 'babel-core/polyfill';
 import React from 'react';
+
+import Input from './components/Input';
+import TodoList from './components/TodoList';
 
 // import Root from './components/root';
 
@@ -28,28 +33,16 @@ class Root extends React.Component {
 
     return (
       <div style={style}>
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-            this.props.dispatch(addTodo(this.state.text));
-            this.setState({text: ''});
-          }}
-        >
-          <input
-            value={this.state.text}
-            onChange={event => this.setState({text: event.target.value})}
-          />
-        </form>
-        {this.props.todos.map(todo => (
-          <div>
-            {todo}
-            <span
-              onClick={event => this.props.dispatch(removeTodo(todo))}
-            >
-              &nbsp;×
-            </span>
-          </div>
-        ))}
+        <div className="jumbotron">
+          <h1>todo</h1>
+        </div>
+        <Input
+          onSubmit={(event, text) => this.props.dispatch(addTodo(text))}
+        />
+        <TodoList
+          todos={this.props.todos}
+          onComplete={(event, index) => this.props.dispatch(removeTodo(index))}
+        />
       </div>
     )
   }
@@ -61,8 +54,8 @@ function addTodo(text) {
   return {type: 'ADD_TODO', text};
 }
 
-function removeTodo(text) {
-  return {type: 'REMOVE_TODO', text}
+function removeTodo(index) {
+  return {type: 'REMOVE_TODO', index}
 }
 
 function todos(state = {todos: ['howdy']}, action) {
@@ -70,7 +63,10 @@ function todos(state = {todos: ['howdy']}, action) {
     case 'ADD_TODO':
       return {todos: [action.text, ...state.todos]};
     case 'REMOVE_TODO':
-      return {todos: state.todos.filter(todo => todo !== action.text)};
+      return {todos: [
+        ...state.todos.slice(0, action.index),
+        ...state.todos.slice(action.index + 1)
+      ]}
     default:
       return state;
   }
