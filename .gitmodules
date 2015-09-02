@@ -1,0 +1,3 @@
+[submodule "static/styleguide"]
+	path = static/styleguide
+	url = git@github.com:evanrs/styleguide.git
