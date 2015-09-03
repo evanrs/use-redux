@@ -17,11 +17,13 @@ class App extends Component {
         <Provider store={store}>
           {() => <TodoApp/>}
         </Provider>
-        <DebugPanel top right bottom>
-          <DevTools
-            store={store}
-            monitor={LogMonitor} />
-        </DebugPanel>
+        {false && module.hot &&
+          <DebugPanel top right bottom>
+            <DevTools
+              store={store}
+              monitor={LogMonitor} />
+          </DebugPanel>
+        }
       </div>
     )
   }

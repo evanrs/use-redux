@@ -9,10 +9,10 @@ import reducers from './reducers';
 const createCustomStore =
   compose(...[
       applyMiddleware(thunk),
-      module.hot && devTools(),
-      module.hot && persistState(
+      false && module.hot && devTools(),
+      false && module.hot && persistState(
                       window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-    ]
+    ].filter(x => x)
   )(createStore)
 ;
 

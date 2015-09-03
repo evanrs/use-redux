@@ -16,7 +16,7 @@ export default class Filter extends Component {
   render() {
     let { current, onFilter } = this.props;
     return (
-      <footer>
+      <div style={{textAlign: 'center', width: '100%', marginBottom: '1em'}}>
         {map(FILTER_TITLES, (displayName, FILTER) => (
           <a
             href="javascript:void(0)"
@@ -30,7 +30,7 @@ export default class Filter extends Component {
             {displayName}
           </a>
         ))}
-      </footer>
+      </div>
     )
   }
 }

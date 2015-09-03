@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import difference from 'lodash/array/difference';
 
 import Input from '../components/Input';
 import TodoList from '../components/TodoList';
@@ -17,6 +18,9 @@ class TodoApp extends Component {
   render() {
     const { actions, dispatch, todos, filter } = this.props;
 
+    let active = todos.filter(filter.test);
+    let disabled = difference(todos, active);
+
     return (
       <div style={TodoApp.style}>
         <div className="jumbotron">
@@ -25,12 +29,13 @@ class TodoApp extends Component {
         <Input
           onSubmit={actions.addTodo}
         />
+        <Filter current={filter} onFilter={type => dispatch({type})}/>
         <TodoList
-          todos={todos.filter(filter.test)}
-          onComplete={actions.toggleTodo}
+          active={active}
+          disabled={disabled}
+          onToggle={actions.toggleTodo}
           onDelete={actions.removeTodo}
         />
-        <Filter current={filter} onFilter={type => dispatch({type})}/>
       </div>
     )
   }
