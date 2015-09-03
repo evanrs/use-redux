@@ -28,7 +28,7 @@ export default class TodoList extends Component {
   render() {
     return (
       <div>
-        {this.props.todos.map((todo) => (
+        {this.props.todos.filter(todo => todo.visible).map((todo) => (
           <div key={todo.id} style={TodoList.style}>
             <div
               className={`check ${todo.complete ? '' : 'in'}active`}

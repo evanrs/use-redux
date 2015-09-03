@@ -4,24 +4,22 @@ import { bindActionCreators } from 'redux';
 
 import Input from '../components/Input';
 import TodoList from '../components/TodoList';
+import Filter from '../components/Filter';
 
-import * as todoActions from '../actions';
+import actions from '../actions';
 
 class TodoApp extends Component {
   static style = {
-    position: 'fixed', top: '50%', left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: '100%'
+    maxWidth: 320,
+    margin: '0 auto'
   }
 
   render() {
-    const { actions, todos } = this.props;
+    const { actions, dispatch, todos } = this.props;
 
     return (
       <div style={TodoApp.style}>
-        <div
-          className="jumbotron"
-          style={{transform: 'translateY(-100%)', marginBottom: '-25%'}}>
+        <div className="jumbotron">
           <h1>todo</h1>
         </div>
         <Input
@@ -32,6 +30,7 @@ class TodoApp extends Component {
           onComplete={actions.toggleTodo}
           onDelete={actions.removeTodo}
         />
+        <Filter onShow={type => dispatch({type})}/>
       </div>
     )
   }
@@ -45,7 +44,8 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
   return {
-    actions: bindActionCreators(todoActions, dispatch)
+    actions: bindActionCreators(actions.todos, dispatch),
+    dispatch
   }
 }
 

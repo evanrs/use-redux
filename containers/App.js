@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import TodoApp from './TodoApp';
-import Boo from '../components/Boo';
+
 import reducers from '../reducers';
 
 const store =
