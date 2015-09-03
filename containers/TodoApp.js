@@ -18,9 +18,6 @@ class TodoApp extends Component {
   render() {
     const { actions, dispatch, todos, filter } = this.props;
 
-    let active = todos.filter(filter.test);
-    let disabled = difference(todos, active);
-
     return (
       <div style={TodoApp.style}>
         <div className="jumbotron">
@@ -32,8 +29,8 @@ class TodoApp extends Component {
         />
         <Filter current={filter} onFilter={type => dispatch({type})}/>
         <TodoList
-          active={active}
-          disabled={disabled}
+          list={todos}
+          filter={filter}
           onToggle={actions.toggleTodo}
           onDelete={actions.removeTodo}
         />
