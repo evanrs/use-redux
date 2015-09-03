@@ -28,6 +28,7 @@ class TodoApp extends Component {
         </div>
         <Input
           onSubmit={actions.addTodo}
+          ref={input => input && input.focus()}
         />
         <Filter current={filter} onFilter={type => dispatch({type})}/>
         <TodoList

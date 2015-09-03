@@ -7,6 +7,10 @@ export default class Input extends Component {
     this.state = {};
   }
 
+  focus() {
+    this.refs.input.getDOMNode().focus();
+  }
+
   render() {
     return (
       <form
@@ -17,6 +21,7 @@ export default class Input extends Component {
         }}
       >
         <input
+          ref="input"
           type="text"
           value={this.state.text}
           onChange={event => this.setState({text: event.target.value})}
