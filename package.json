@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/evanrs/use-redux#readme",
   "dependencies": {
+    "immutable": "^3.7.5",
     "less": "^2.5.1",
     "lodash": "^3.10.1",
     "react": "^0.13.3",

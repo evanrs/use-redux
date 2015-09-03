@@ -1,36 +1,45 @@
-import findIndex from 'lodash/array/findIndex';
 import result from 'lodash/object/result';
-import uniqueId from 'lodash/utility/uniqueId';
+import Immutable, {List, Record} from 'immutable';
 
 import actions from '../actions';
 
 const { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } = actions.todos;
 
-function todos(state = [], action) {
-  let id = result(action, 'todo.id');
-  let index = findIndex(state, {id});
+const TodoRecord = Record(
+  { id: 0,
+    text: '',
+    complete: false},
+  'TodoRecord'
+);
 
-  switch (action.type) {
+function todos(state = [], action = {}) {
+  const {type, todo, text} = action;
+
+  state = List.isList(state) ? state : List.of(...state);
+
+  let id = result(todo, 'id');
+  let index = state.findIndex(todo => id === todo.id);
+
+  switch (type) {
     case ADD_TODO:
-      return id ? state : [
-        { id:
-            state[0] && state[0].id + 1 || 0,
-            // uniqueId('todo'),
-          text: action.text,
-          complete: false,
-          visible: true
-        },
-        ...state
-      ];
+      let last = state.last();
+
+      return state.push(
+        new TodoRecord({
+          id: last ? last.id + 1 : 0,
+          text
+        })
+      );
 
     case TOGGLE_TODO:
-      return state.
-        map(todo =>
-              todo.id !== action.todo.id ?
-                todo : {...todo, complete: ! todo.complete});
+      return (
+        index >= 0 ?
+          state.update(index, todo => todo.set('complete', ! todo.complete))
+        : state
+      );
 
     case REMOVE_TODO:
-      return state.filter(todo => todo.id !== action.todo.id);
+      return state.delete(index);
 
     default:
       return state;
