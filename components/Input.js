@@ -12,7 +12,7 @@ export default class Input extends Component {
       <form
         onSubmit={event => {
           event.preventDefault();
-          this.props.onSubmit(event, this.state.text);
+          this.props.onSubmit(this.state.text);
           this.setState({text: ''});
         }}
       >

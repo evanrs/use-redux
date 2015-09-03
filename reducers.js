@@ -1,34 +1,33 @@
+import findIndex from 'lodash/array/findIndex';
+import result from 'lodash/object/result';
+import uniqueId from 'lodash/utility/uniqueId';
+
 import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from './actions';
 
-let id = 0;
-
-function todos(state = {todos: []}, action) {
-  let index = state.todos.indexOf(action.todo);
+function todos(state = [], action) {
+  let id = result(action, 'todo.id');
+  let index = findIndex(state, {id});
 
   switch (action.type) {
     case ADD_TODO:
-      return {todos: [
-        { id: `todo-${id++}`,
+      return id ? state : [
+        { id:
+            state[0] && state[0].id + 1 || 0,
+            // uniqueId('todo'),
           text: action.text,
+          complete: false
         },
-        ...state.todos
-      ]};
+        ...state
+      ];
 
     case TOGGLE_TODO:
-      return {todos: [
-        ...state.todos.slice(0, index),
-        {
-          ...action.todo,
-          complete: ! action.todo.complete
-        },
-        ...state.todos.slice(index + 1)
-      ]}
+      return state.
+        map(todo =>
+              todo.id !== action.todo.id ?
+                todo : {...todo, complete: ! todo.complete});
 
     case REMOVE_TODO:
-      return {todos: [
-        ...state.todos.slice(0, index),
-        ...state.todos.slice(index + 1)
-      ]}
+      return state.filter(todo => todo.id !== action.todo.id);
 
     default:
       return state;
