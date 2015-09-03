@@ -1,6 +1,31 @@
-import { createStore } from 'redux';
+import React, { Component } from 'react';
+
+import { createStore, applyMiddleware, compose } from 'redux';
+import { devTools, persistState } from 'redux-devtools';
+import thunk from 'redux-thunk';
+
 import reducers from './reducers';
 
-const store = createStore(reducers);
+const createCustomStore =
+  compose(...[
+      applyMiddleware(thunk),
+      module.hot && devTools(),
+      module.hot && persistState(
+                      window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+    ]
+  )(createStore)
+;
 
-export default store;
+export default function configure() {
+  const store = createCustomStore(reducers);
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('./reducers', () => {
+      const nextReducer = require('./reducers');
+      store.replaceReducer(nextReducer);
+    });
+  }
+
+  return store;
+}

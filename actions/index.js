@@ -1,4 +1,4 @@
-import * as filters from './filters';
+import * as filter from './filter';
 import * as todos from './todos';
 
-export default {filters, todos};
+export default {filter, todos};

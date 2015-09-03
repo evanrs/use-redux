@@ -15,7 +15,7 @@ class TodoApp extends Component {
   }
 
   render() {
-    const { actions, dispatch, todos } = this.props;
+    const { actions, dispatch, todos, filter } = this.props;
 
     return (
       <div style={TodoApp.style}>
@@ -26,11 +26,11 @@ class TodoApp extends Component {
           onSubmit={actions.addTodo}
         />
         <TodoList
-          todos={todos}
+          todos={todos.filter(filter.test)}
           onComplete={actions.toggleTodo}
           onDelete={actions.removeTodo}
         />
-        <Filter onShow={type => dispatch({type})}/>
+        <Filter current={filter} onFilter={type => dispatch({type})}/>
       </div>
     )
   }
@@ -38,7 +38,8 @@ class TodoApp extends Component {
 
 function mapState(state) {
   return {
-    todos: state.todos
+    todos: state.todos,
+    filter: state.filter
   }
 }
 

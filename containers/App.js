@@ -8,23 +8,7 @@ import { Provider } from 'react-redux';
 
 import TodoApp from './TodoApp';
 
-import reducers from '../reducers';
-
-const store =
-  compose(
-    applyMiddleware(thunk),
-    devTools(),
-    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-  )
-  (createStore)
-  (combineReducers({todos: reducers}))
-;
-
-if (module.hot) {
-  module.hot.accept('../reducers', () =>
-    store.replaceReducer(require('../reducers'))
-  )
-}
+const store = require('../store')();
 
 class App extends Component {
   render() {

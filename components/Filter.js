@@ -1,8 +1,10 @@
 import map from 'lodash/collection/map';
 import React, { Component, PropTypes } from 'react';
 
-import {filters} from '../actions';
-const {FILTER_NONE, FILTER_COMPLETE, FILTER_INCOMPLETE} = filters;
+import {
+  FILTER_NONE,
+  FILTER_COMPLETE,
+  FILTER_INCOMPLETE } from '../actions/filter';
 
 const FILTER_TITLES = {
   [FILTER_NONE]: 'all',
@@ -11,31 +13,21 @@ const FILTER_TITLES = {
 }
 
 export default class Filter extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {filter: FILTER_NONE};
-  }
-
-  onShow(filter) {
-    this.setState({filter});
-    this.props.onShow(filter);
-  }
-
   render() {
+    let { current, onFilter } = this.props;
     return (
       <footer>
-        {map(FILTER_TITLES, (name, filter) => (
+        {map(FILTER_TITLES, (displayName, FILTER) => (
           <a
             href="javascript:void(0)"
             style={{
               fontSize: 12,
               display: 'inline',
               marginRight: '1em',
-              textDecoration: filter === this.state.filter ? 'underline' : ''
+              textDecoration: FILTER === current.type ? 'underline' : ''
             }}
-            onClick={event => this.onShow(filter)}>
-            {name}
+            onClick={event => onFilter(FILTER)}>
+            {displayName}
           </a>
         ))}
       </footer>
