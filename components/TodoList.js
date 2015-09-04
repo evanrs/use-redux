@@ -18,6 +18,8 @@ export default class TodoList extends Component {
   render() {
     let {list, filter} = this.props;
 
+    list = list.reverse();
+
     let active = list.filter(filter.test);
     let disabled = list.filter(item => ! filter.test(item));
 

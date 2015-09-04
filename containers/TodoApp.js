@@ -41,7 +41,7 @@ class TodoApp extends Component {
 
 function mapState(state) {
   return {
-    todos: state.todos.reverse(),
+    todos: state.todos,
     filter: state.filter
   }
 }
