@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react/addons';
 const {CSSTransitionGroup} = React.addons;
 
+import matches from 'lodash/utility/matches';
 
 import TodoItem from './TodoItem';
 
@@ -16,12 +17,13 @@ export default class TodoList extends Component {
   }
 
   render() {
-    let {list, filter} = this.props;
+    let {list, filter, filter: {test}} = this.props;
 
     list = list.reverse();
+    test = x => matches(filter.test)(x);
 
-    let active = list.filter(filter.test);
-    let disabled = list.filter(item => ! filter.test(item));
+    let active = list.filter(test);
+    let disabled = list.filterNot(test);
 
     return (
       <div>
