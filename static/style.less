@@ -1,10 +1,13 @@
+@import './styleguide/core.less';
+// @import './styleguide/themes/friends-and-foes.less';
+
 @size-icon: 30px;
-@background-body: #fff;
+
 
 .check {
   width: @size-icon;
   height: @size-icon;
-  background: #ddd;
+  background: rgba(255,255,255, 0.85);
   border-radius: 50%;
   position: relative;
   // position: absolute;
@@ -16,7 +19,7 @@
 
   &:before {
     content: "";
-    background: @background-body;
+    background: #fff;
     position: absolute;
     border-radius: 50%;
     top: 8%;
@@ -34,7 +37,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border-color: #60b247;
+    border-color: @affirmation;
     border-width: 0;
     border-style: solid;
   }
