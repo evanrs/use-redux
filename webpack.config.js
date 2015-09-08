@@ -2,10 +2,9 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
+    'webpack-hot-middleware/client',
     './index'
   ],
   output: {
@@ -14,13 +13,20 @@ module.exports = {
     publicPath: '/static/'
   },
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['react-hot', 'babel'],
+      loaders: ['babel'],
+      exclude: /node_modules/,
+      include: __dirname
+    },
+    {
+      test: /\.less$/,
+      loaders: ['style', 'css', 'autoprefixer', 'less'],
       exclude: /node_modules/,
       include: __dirname
     }]
