@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import difference from 'lodash/array/difference';
+import debounce from 'lodash/function/debounce';
 
 import Input from '../components/Input';
 import TodoList from '../components/TodoList';
@@ -16,7 +17,7 @@ class TodoApp extends Component {
   }
 
   render() {
-    const { actions, dispatch, todos, filter } = this.props;
+    const { actions, dispatch, draft, list, filter } = this.props;
 
     return (
       <div style={TodoApp.style}>
@@ -24,12 +25,14 @@ class TodoApp extends Component {
           <h1>todo</h1>
         </div>
         <Input
-          onSubmit={actions.addTodo}
+          value={draft ? draft.text : ''}
+          onInput={text => actions.draftTodo(draft, text)}
+          onSubmit={text => actions.addTodo(draft)}
           ref={input => input && input.focus()}
         />
         <Filter current={filter} onFilter={type => dispatch({type})}/>
         <TodoList
-          list={todos}
+          list={list}
           filter={filter}
           onToggle={actions.toggleTodo}
           onDelete={actions.removeTodo}
@@ -39,10 +42,14 @@ class TodoApp extends Component {
   }
 }
 
-function mapState(state) {
+function mapState({todos, filter}) {
+  const [draftIndex, draft] = todos.findEntry(todo => todo.drafting) || [];
+  const list = draft ? todos.splice(draftIndex, 1) : todos;
+
   return {
-    todos: state.todos,
-    filter: state.filter
+    draft,
+    list,
+    filter
   }
 }
 

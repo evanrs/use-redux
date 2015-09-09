@@ -23,8 +23,10 @@ export default class Input extends Component {
         <input
           ref="input"
           type="text"
-          value={this.state.text}
-          onChange={event => this.setState({text: event.target.value})}
+          value={this.state.text || this.props.value}
+          onChange={event => (
+                      this.props.onInput(event.target.value),
+                      this.setState({text: event.target.value}))}
           style={{width: '100%'}}
         />
       </form>
