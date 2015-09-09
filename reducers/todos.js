@@ -12,10 +12,12 @@ const TodoRecord = Record(
   'TodoRecord'
 );
 
-function todos(state = [], action = {}) {
+function todos(state = List(), action = {}) {
   const {type, todo, text} = action;
 
-  state = List.isList(state) ? state : List.of(...state);
+  if (! List.isList(state)) {
+    state = List.of(...state).map(v => TodoRecord(v));
+  }
 
   let id = result(todo, 'id');
   let index = state.findIndex(todo => id === todo.id);
