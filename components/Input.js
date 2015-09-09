@@ -11,6 +11,13 @@ export default class Input extends Component {
     this.refs.input.getDOMNode().focus();
   }
 
+  componentDidMount() {
+    if (! this.state.text) {
+      let input = this.refs.input.getDOMNode();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  }
+
   render() {
     return (
       <form
