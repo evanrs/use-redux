@@ -21,12 +21,7 @@ export default class Filter extends Component {
           <a
             key={FILTER}
             href="javascript:void(0)"
-            style={{
-              fontSize: 12,
-              display: 'inline',
-              marginRight: '1em',
-              textDecoration: FILTER === current.type ? 'underline' : ''
-            }}
+            className={FILTER === current.type ? 'selected' : ''}
             onClick={event => onFilter(FILTER)}>
             {displayName}
           </a>
