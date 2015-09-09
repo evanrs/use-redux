@@ -1,0 +1,91 @@
+@import './reset.less';
+@import './media.less';
+@import './colors.less';
+@import './units.less';
+
+@import './themes/default.less';
+
+* {
+  box-sizing: border-box
+}
+
+body {
+    background-color: @body-background;
+    color: @body-foreground;
+    font-family: 'Muli', sans-serif;
+    font-weight: 100;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Raleway', sans-serif;
+}
+
+p {
+    line-height: 1.5em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+        color: @mango;
+    }
+}
+
+.overlay {
+    width: 100%;
+    text-align: center;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.jumbotron {
+    text-align: center;
+    min-height: 50%;
+    margin: 10% 0;
+    h1 {
+        font-size: 35px;
+        line-height: 60px;
+        font-weight: 100;
+        @media @nonmobile {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+    }
+    .subheading {
+        font-weight: 300;
+    }
+}
+
+input, textarea {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  max-width: 100%;
+  border-radius: 3px;
+  border: none;
+  background-color: @input-background-color;
+  background-image: @input-background-image;
+
+  &:focus {
+    background-color: @input-background-color-focus;
+  }
+
+  font-size: 16px;
+  line-height: 24px;
+  color: @black75;
+}
+
+input[type="text"] {
+  padding: 0.5em 1em;
+  margin-bottom: @base-size;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0px 3px @ui-border;
+  }
+}
