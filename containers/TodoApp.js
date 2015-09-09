@@ -27,7 +27,7 @@ class TodoApp extends Component {
         <Input
           value={draft ? draft.text : ''}
           onInput={text => actions.draftTodo(draft, text)}
-          onSubmit={text => actions.addTodo(draft)}
+          onSubmit={() => actions.addTodo(draft)}
           ref={input => input && input.focus()}
         />
         <Filter current={filter} onFilter={type => dispatch({type})}/>
