@@ -7,19 +7,15 @@
 .check {
   width: @size-icon;
   height: @size-icon;
-  background: rgba(255,255,255, 0.85);
+  background: @ui-background;
   border-radius: 50%;
   position: relative;
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
-  // transform: translateX(-50%) translateY(-50%);
   box-shadow: 0px -4px 4px 0px rgba(255, 255, 255, 0), inset 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
   cursor: pointer;
 
   &:before {
     content: "";
-    background: #fff;
+    background: @ui-foreground;
     position: absolute;
     border-radius: 50%;
     top: 8%;
@@ -48,7 +44,7 @@
     top: -35%;
     left: 28%;
     width: 45%;
-    fill: #e5e5e5;
+    fill: @ui-text;
   }
 
 
@@ -59,7 +55,7 @@
     }
 
     .check-icon {
-      fill: #fff;
+      fill: @affirmation-text;
       animation: bounce 0.2s;
       animation-delay: 0.08s;
     }
@@ -147,5 +143,17 @@
   & ~ * {
     transition: transform .125s ease-in-out;
     transform: translateY(-100%);
+  }
+}
+
+.rule {
+  padding: 16px;
+  hr {
+    margin: 0;
+    border: none;
+    max-height: 4px;
+    height: 4px;
+    border-radius: 3px;
+    background: @ui-border;
   }
 }
