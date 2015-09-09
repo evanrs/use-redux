@@ -11,10 +11,9 @@ const createCustomStore =
   compose(...[
       createHistory(),
       applyMiddleware(thunk),
-      false && module.hot && devTools(),
-      false && module.hot &&
-        persistState(
-          window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+      // module.hot && devTools(),
+      // module.hot && persistState(
+      //                 window.location.href.match(/[?&]debug_session=([^&]+)\b/))
     ].filter(x => x)
   )(createStore)
 ;
