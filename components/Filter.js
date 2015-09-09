@@ -19,6 +19,7 @@ export default class Filter extends Component {
       <div style={{textAlign: 'center', width: '100%', marginBottom: '1em'}}>
         {map(FILTER_TITLES, (displayName, FILTER) => (
           <a
+            key={FILTER}
             href="javascript:void(0)"
             style={{
               fontSize: 12,
