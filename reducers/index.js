@@ -1,4 +1,5 @@
 import Immutable, {Map} from 'immutable';
+import forEach from 'lodash/collection/forEach';
 import mapValues from 'lodash/object/mapValues';
 
 import filter from './filter';
@@ -22,13 +23,14 @@ function immutableCombinator(state = Map(), action) {
   }
 
   return (
-    state.withMutations((state) => {
+    state.withMutations((state) =>
       forEach(
         reducers, (reducer, key) =>
           state.set(
-            key, reducer(state.get(key), action, state)))
-    })
+            key, reducer(state.get(key), action, state))))
+    // Because redux-devtools can only take a plain object :-(
+    .toObject()
   )
 }
 
-export default mutableCombinator;
+export default immutableCombinator
