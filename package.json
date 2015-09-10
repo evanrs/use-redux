@@ -4,7 +4,8 @@
   "description": "A project using redux, learning by doing",
   "main": "index.js",
   "scripts": {
-    "start": "HOT=true node server",
+    "start": "node server",
+    "develop": "HOT=true node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
