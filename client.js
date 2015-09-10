@@ -1,11 +1,10 @@
 import 'babel-core/polyfill';
 
-import React from 'react';
+require('./static/style.less');
 
-import App from './containers/App';
-
-require.ensure('./static/style.less', function (require) {
-  require('./static/style.less');
+require.ensure(['react', './containers/App'], function (require) {
+  const React = require('react');
+  const App = require('./containers/App');
 
   React.render(<App />, document.getElementById('root'));
 });
