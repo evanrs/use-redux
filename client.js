@@ -1,6 +1,6 @@
 import 'babel-core/polyfill';
 
-require('./static/style.less');
+require('./style');
 
 require.ensure(['react', './containers/App'], function (require) {
   const React = require('react');
