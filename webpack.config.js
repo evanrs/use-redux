@@ -1,12 +1,16 @@
 var path = require('path');
 var webpack = require('webpack');
 
+var HOT = process.env.HOT;
+
+function identity (x) { return x; }
+
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
-    'webpack-hot-middleware/client',
+    HOT && 'webpack-hot-middleware/client',
     './client'
-  ],
+  ].filter(identity),
   output: {
     path: path.join(__dirname, 'static'),
     filename: 'bundle.js',
@@ -14,9 +18,9 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
+    HOT && new webpack.HotModuleReplacementPlugin(),
+    HOT && new webpack.NoErrorsPlugin()
+  ].filter(identity),
   module: {
     loaders: [{
       test: /\.js$/,
