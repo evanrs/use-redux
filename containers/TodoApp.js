@@ -7,6 +7,7 @@ import debounce from 'lodash/function/debounce';
 import Input from '../components/Input';
 import TodoList from '../components/TodoList';
 import Filter from '../components/Filter';
+import Scrub from '../components/Scrub';
 
 import actions from '../actions';
 
@@ -31,9 +32,13 @@ class TodoApp extends Component {
           ref={input => input && input.focus()}
         />
         <div style={{textAlign: 'center', width: '100%', marginBottom: '1em'}}>
-          <a href="javascript:void(0)" onClick={event => dispatch({type: '@@REDO'})}>&nbsp;❮❮❮&nbsp;</a>
+          <Scrub onScrub={e => dispatch({type: '@@UNDO'})}>
+            <a href="javascript:void(0)">&nbsp;❮&nbsp;&nbsp;&nbsp;&nbsp;</a>
+          </Scrub>
           <Filter current={filter} onFilter={type => dispatch({type})}/>
-          <a href="javascript:void(0)" onClick={event => dispatch({type: '@@UNDO'})}>&nbsp;❯❯❯&nbsp;</a>
+          <Scrub onScrub={e => dispatch({type: '@@REDO'})}>
+            <a href="javascript:void(0)">&nbsp;&nbsp;&nbsp;&nbsp;❯&nbsp;</a>
+          </Scrub>
         </div>
         <TodoList
           list={list}
