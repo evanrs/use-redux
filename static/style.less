@@ -164,3 +164,18 @@ a {
     background: @ui-border;
   }
 }
+
+.app-appear {
+  opacity: 0;
+  transform:
+    scaleY(1.15)
+    scaleX(0.95)
+    translateY(16px)
+    rotateX(-40deg)
+  ;
+}
+.app-appear.app-appear-active {
+  opacity: 1;
+  transform: scaleX(1) scaleY(1) rotateX(0deg) translateY(0%);
+  transition: opacity .33s ease-in, transform 0.35s ease-out;
+}
