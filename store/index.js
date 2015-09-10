@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import {createHistory} from './store/history';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { devTools, persistState } from 'redux-devtools';
 import thunk from 'redux-thunk';
 
-import reducers from './reducers';
+import { createHistory } from './history';
+import reducers from '../reducers';
 
 const createCustomStore =
   compose(...[
@@ -23,8 +23,8 @@ export default function configure() {
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('./reducers', () => {
-      const nextReducer = require('./reducers');
+    module.hot.accept('../reducers', () => {
+      const nextReducer = require('../reducers');
       store.replaceReducer(nextReducer);
     });
   }
