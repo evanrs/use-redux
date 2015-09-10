@@ -6,7 +6,7 @@ var HOT = process.env.HOT;
 function identity (x) { return x; }
 
 module.exports = {
-  devtool: 'eval-source-map',
+  devtool: HOT ? 'eval-source-map' : 'source-map',
   entry: [
     HOT && 'webpack-hot-middleware/client',
     './client'
@@ -19,7 +19,8 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     HOT && new webpack.HotModuleReplacementPlugin(),
-    HOT && new webpack.NoErrorsPlugin()
+    HOT && new webpack.NoErrorsPlugin(),
+    ! HOT && new webpack.optimize.UglifyJsPlugin()
   ].filter(identity),
   module: {
     loaders: [{
