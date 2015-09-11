@@ -17,7 +17,9 @@ class App extends Component {
         <Provider store={store}>
           {() => <TodoApp/>}
         </Provider>
-        {false && module.hot &&
+        {
+          false &&
+          module.hot &&
           <DebugPanel top right bottom>
             <DevTools
               store={store}
