@@ -1,5 +1,7 @@
 @import './styleguide/core.less';
 // @import './styleguide/themes/friends-and-foes.less';
+// @import './styleguide/themes/ocean-sunset.less';
+// @import './styleguide/themes/phaedra.less';
 
 @size-icon: 30px;
 
@@ -8,6 +10,32 @@ a {
   margin: 0 0.5em;
   &.selected {
     text-decoration: underline;
+  }
+}
+
+.todoitem {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 100;
+}
+.todoitem-text {
+  flex: 0.7;
+  padding: 16px;
+  font-size: 13px;
+  opacity: 1;
+  transition: opacity 0.1s;
+  &.todoitem-text__complete {
+    opacity: 0.5;
+  }
+}
+.todoitem-delete {
+  color: #FFF;
+  background: none;
+  &, &:active {
+    outline: none;
   }
 }
 
