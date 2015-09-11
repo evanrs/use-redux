@@ -4,15 +4,13 @@ export const REMOVE_TODO = 'REMOVE_TODO';
 export const DRAFT_TODO = 'DRAFT_TODO';
 
 export function draftTodo(todo, text) {
-  if (text.length === 0 && todo) return removeTodo(todo);
-
-  return {type: DRAFT_TODO, todo, text};
+  return catchEmpty(todo, text) ||
+    {type: DRAFT_TODO, todo, text};
 }
 
 export function addTodo(todo, text) {
-  if (text.replace(/\s/g, '').length === 0) removeTodo(todo);
-
-  return {type: ADD_TODO, todo, text};
+  return catchEmpty(todo, text) ||
+    {type: ADD_TODO, todo, text};
 }
 
 export function toggleTodo (todo) {
@@ -21,4 +19,12 @@ export function toggleTodo (todo) {
 
 export function removeTodo(todo) {
   return {type: REMOVE_TODO, todo}
+}
+
+function catchEmpty(todo, text = '') {
+  return (
+    text.replace(/\s/g, '').length === 0 ?
+        todo ? removeTodo(todo) : {type: DRAFT_TODO, todo, text}
+    : false
+  )
 }
