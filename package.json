@@ -7,7 +7,7 @@
     "start": "npm run build && node server",
     "build": "./node_modules/.bin/webpack",
     "develop": "HOT=true node server",
-    "deploy": "webpack && git checkout -b build && git add static && git status && git commit -m 'Heroku build' && git checkout master && git push heroku build --force; git branch -D build",
+    "deploy": "webpack && git checkout -b build && git add static && git status && git commit -m 'Heroku build' && git checkout master && git push heroku build:master --force; git branch -D build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
