@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import debounce from 'lodash/function/debounce';
-import defer from 'lodash/function/defer';
 
 export default class Input extends Component {
   componentWillMount() {
@@ -43,8 +42,7 @@ export default class Input extends Component {
           event.preventDefault();
           event.stopPropagation();
           this.onInput.cancel();
-          this.props.onInput(this.state.value);
-          defer(() => this.props.onSubmit(this.state.value));
+          this.props.onSubmit(this.state.value);
         }}
       >
         <input

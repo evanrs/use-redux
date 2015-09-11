@@ -18,7 +18,8 @@ class TodoApp extends Component {
   }
 
   render() {
-    const { actions, dispatch, draft, list, filter } = this.props;
+    const { actions, dispatch, draft, items, filter } = this.props;
+    const { text, id } = draft || {};
 
     return (
       <div style={TodoApp.style}>
@@ -26,9 +27,12 @@ class TodoApp extends Component {
           <h1>todo</h1>
         </div>
         <Input
-          value={draft ? draft.text : ''}
-          onInput={(text='') => actions.draftTodo(draft, text)}
-          onSubmit={(text='') => text.length && actions.addTodo(draft, text)}
+          value={text}
+          onInput={(text='') => actions.draftTodo(id, text)}
+          onSubmit={(text='') => {
+            actions.draftTodo(id, text);
+            text.length && actions.addTodo(id, text)
+          }}
           ref={input => input && input.focus()}
         />
         <div style={{textAlign: 'center', width: '100%', marginBottom: '1em'}}>
@@ -41,7 +45,7 @@ class TodoApp extends Component {
           </Scrub>
         </div>
         <TodoList
-          list={list}
+          items={items}
           filter={filter}
           onToggle={actions.toggleTodo}
           onDelete={actions.removeTodo}
@@ -52,12 +56,12 @@ class TodoApp extends Component {
 }
 
 function mapState({todos, filter}) {
-  const [draftIndex, draft] = todos.findEntry(todo => todo.drafting) || [];
-  const list = draft ? todos.splice(draftIndex, 1) : todos;
+  let draft = todos.get('draft');
+  let items = todos.get('items');
 
   return {
     draft,
-    list,
+    items,
     filter
   }
 }

@@ -1,11 +1,16 @@
-import pick from 'lodash/object/pick';
+import Immutable, {Iterable, Map, List, Record} from 'immutable';
+import isNumber from 'lodash/lang/isNumber';
 import matches from 'lodash/utility/matches';
-import Immutable, {List, Record} from 'immutable';
+import uniqueId from 'lodash/utility/uniqueId';
 
 import actions from '../actions';
 
+
 const { ADD_TODO, DRAFT_TODO, TOGGLE_TODO, REMOVE_TODO } = actions.todos;
-const ACTION_LIST = List.of(actions.todos);
+
+const ACTION_LIST = List([
+  ADD_TODO, DRAFT_TODO, TOGGLE_TODO, REMOVE_TODO
+]);
 
 const TodoRecord = Record(
   { id: 0,
@@ -15,52 +20,59 @@ const TodoRecord = Record(
   'TodoRecord'
 );
 
-function todos(state = List(), action = {}) {
-  const {type, todo, text} = action;
+const initialState = Map({
+  count: 0,
+  draft: new TodoRecord,
+  items: List()
+});
 
-  if (! List.isList(state))
-    state = List.of(...state).map(v => new TodoRecord(v));
+function todos(state, {type, id, text} = {}) {
+  state =
+    ! Iterable.isKeyed(state) ? initialState
+      : Map.isMap(state) ? state
+      : Immutable.fromJS(state).
+          update('list', list => list.map(v => new TodoRecord(v))).
+          update('draft', v => new TodoRecord(v));
 
-  if (ACTION_LIST.find(matches(action.type)))
-    return state;
+  if (! ACTION_LIST.includes(type)) return state;
 
-  let index = state.findIndex(matches(pick(todo, 'id')));
+  let index = state.get('items').findIndex(matches({id}));
 
-  if (! todo) switch (type) {
-    case DRAFT_TODO:
-    case ADD_TODO:
-      return state.push(
-        new TodoRecord({
-          id: state.size ? state.last().id + 1 : 0,
-          drafting: DRAFT_TODO === type,
-          text
-        })
-      )
-  }
-
-  else if (index >= 0) switch(type) {
+  switch(type) {
     case DRAFT_TODO:
       return state.
-        update(index, todo => todo.
-          set('text', text))
+        update('draft', draft =>
+          draft.merge({text}))
 
-    case ADD_TODO:
+    case ADD_TODO: {
+      let count = state.get('count') + 1;
+
       return state.
-        update(index, todo => todo.
-          set('text', text).
-          set('drafting', false));
+        update('items', items =>
+          items.push(state.get('draft').merge({
+            drafting: false,
+            text: text
+          }))
+        ).
+        set('count', count).
+        set('draft', new TodoRecord({id: count}));
+    }
 
     case TOGGLE_TODO:
-      return state.
-        update(index, todo => todo.
-          set('complete', ! todo.complete));
+      if (index >= 0)
+        return state.
+          update('items', items =>
+            items.update(index, todo =>
+              todo.set('complete', ! todo.complete)));
 
     case REMOVE_TODO:
-      return state.delete(index);
-  }
+      if (index >= 0)
+        return state.
+          update('items', items =>
+            items.delete(index));
 
-  else {
-    console.error("Invalid state, undefined index", action);
+    default:
+      console.error("Invalid state, undefined index", type, id, text);
   }
 
   return state;

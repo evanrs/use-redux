@@ -3,18 +3,18 @@ export const TOGGLE_TODO = 'TOGGLE_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const DRAFT_TODO = 'DRAFT_TODO';
 
-export function draftTodo(todo, text) {
-  return {type: DRAFT_TODO, todo, text};
+export function draftTodo(id, text) {
+  return {type: DRAFT_TODO, id, text};
 }
 
-export function addTodo(todo, text = '') {
-  return {type: ADD_TODO, todo, text}
+export function addTodo(id, text) {
+  return {type: ADD_TODO, id, text};
 }
 
-export function toggleTodo (todo) {
-  return {type: TOGGLE_TODO, todo}
+export function toggleTodo (id) {
+  return {type: TOGGLE_TODO, id}
 }
 
-export function removeTodo(todo) {
-  return {type: REMOVE_TODO, todo}
+export function removeTodo(id) {
+  return {type: REMOVE_TODO, id}
 }

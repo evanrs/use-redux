@@ -21,7 +21,7 @@ export default class TodoItem extends Component {
               className={`check ${active ? '' : 'in'}active`}
               onClick={event => (
                 this.setState({active: ! item.complete}),
-                setTimeout(() => onToggle(item), 25)
+                setTimeout(() => onToggle(item.id), 25)
               )}
             >
               <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" width="61" height="52" viewBox="0 0 61 52" className="check-icon">
@@ -29,13 +29,13 @@ export default class TodoItem extends Component {
               </svg>
             </div>
             <div className={`todoitem-text ${item.complete && 'todoitem-text__complete'}`}>
-              {item.text}
+              {item.id} {item.text}
             </div>
             <input
               className="todoitem-delete"
               type="button"
               value="&nbsp;×&nbsp;"
-              onClick={event => onDelete(item)}
+              onClick={event => onDelete(item.id)}
             />
           </div>
         </CSSTransitionGroup>

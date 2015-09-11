@@ -17,13 +17,13 @@ export default class TodoList extends Component {
   }
 
   render() {
-    let {list, filter, filter: {test}} = this.props;
+    let {items, filter, filter: {test}} = this.props;
 
-    list = list.reverse();
+    items = items.reverse();
     test = x => matches(filter.test)(x);
 
-    let active = list.filter(test);
-    let disabled = list.filterNot(test);
+    let active = items.filter(test);
+    let disabled = items.filterNot(test);
 
     return (
       <div>
