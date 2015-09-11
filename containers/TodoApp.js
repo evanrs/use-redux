@@ -28,7 +28,7 @@ class TodoApp extends Component {
         <Input
           value={draft ? draft.text : ''}
           onInput={text => actions.draftTodo(draft, text)}
-          onSubmit={() => actions.addTodo(draft)}
+          onSubmit={text => actions.addTodo(draft, text)}
           ref={input => input && input.focus()}
         />
         <div style={{textAlign: 'center', width: '100%', marginBottom: '1em'}}>

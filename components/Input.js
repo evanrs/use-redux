@@ -2,8 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import debounce from 'lodash/function/debounce';
 
 export default class Input extends Component {
-  focus() {
-    this.refs.input.getDOMNode().focus();
+  componentWillMount() {
+    this.onInput = debounce(() => this.props.onInput(this.state.value), 370);
+    this.componentWillReceiveProps(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    this.onInput.cancel();
+    this.setState({value: props.value});
   }
 
   componentDidMount() {
@@ -15,32 +21,44 @@ export default class Input extends Component {
   }
 
   handleUpdate() {
-    let input = this.refs.input.getDOMNode();
-    let caret = input.value.length;
+    // Move caret to end of string on text replace
+    if (this.state.value === this.props.value) {
+      let input = this.refs.input.getDOMNode();
+      let caret = input.value.length;
+      if (caret > 0 && input.selectionStart === 0) {
+        input.setSelectionRange(caret, caret);
+      }
+    }
+  }
 
-    if (caret > input.selectionStart)
-      input.setSelectionRange(input.value.length, input.value.length);
+  focus() {
+    this.refs.input.getDOMNode().focus();
   }
 
   render() {
-    let onInput = debounce(this.props.onInput, 25);
-
     return (
       <form
         onSubmit={event => {
           event.preventDefault();
           event.stopPropagation();
-          this.props.onSubmit(event.target.value);
+          this.onInput.cancel();
+          this.props.onSubmit(this.state.value);
         }}
       >
         <input
           ref="input"
           type="text"
-          value={this.props.value}
+          value={this.state.value}
           onChange={event => {
             event.preventDefault();
             event.stopPropagation();
-            this.props.onInput(event.target.value)
+            let {value} = event.target;
+
+            // Record on every word
+            ! /\b$/.test(value) && ! /\s\s+$/.test(value) ?
+              this.props.onInput(value) : this.onInput(value);
+
+            this.setState({value});
           }}
           style={{width: '100%'}}
         />
