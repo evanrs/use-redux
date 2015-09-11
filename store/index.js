@@ -4,13 +4,14 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { devTools, persistState } from 'redux-devtools';
 import thunk from 'redux-thunk';
 
-import { createHistory } from './history';
+import { createHistory } from './action-history';
+// import { createHistory } from './history';
 import reducers from '../reducers';
 
 const createCustomStore =
   compose(...[
-      createHistory(),
       applyMiddleware(thunk),
+      createHistory(),
       // module.hot && devTools(),
       // module.hot && persistState(
       //                 window.location.href.match(/[?&]debug_session=([^&]+)\b/))
