@@ -1,9 +1,11 @@
-import result from 'lodash/object/result';
+import pick from 'lodash/object/pick';
+import matches from 'lodash/utility/matches';
 import Immutable, {List, Record} from 'immutable';
 
 import actions from '../actions';
 
 const { ADD_TODO, DRAFT_TODO, TOGGLE_TODO, REMOVE_TODO } = actions.todos;
+const ACTION_LIST = List.of(actions.todos);
 
 const TodoRecord = Record(
   { id: 0,
@@ -16,37 +18,52 @@ const TodoRecord = Record(
 function todos(state = List(), action = {}) {
   const {type, todo, text} = action;
 
-  if (! List.isList(state)) {
+  if (! List.isList(state))
     state = List.of(...state).map(v => new TodoRecord(v));
+
+  if (ACTION_LIST.find(matches(action.type)))
+    return state;
+
+  let index = state.findIndex(matches(pick(todo, 'id')));
+
+  if (! todo) switch (type) {
+    case DRAFT_TODO:
+    case ADD_TODO:
+      return state.push(
+        new TodoRecord({
+          id: state.size ? state.last().id + 1 : 0,
+          drafting: DRAFT_TODO === type,
+          text
+        })
+      )
   }
 
-  let id = result(todo, 'id');
-  let index = state.findIndex(todo => id === todo.id);
-
-  switch (type) {
+  else if (index >= 0) switch(type) {
     case DRAFT_TODO:
-      return index >= 0 ?
-        state.update(index, todo => todo.set('text', text))
-      : state.push(
-          new TodoRecord({
-            id: state.size ? state.last().id + 1 : 0,
-            text
-          })
-        )
-      ;
+      return state.
+        update(index, todo => todo.
+          set('text', text))
 
     case ADD_TODO:
-      return state.update(index, todo => todo.set('drafting', false));
+      return state.
+        update(index, todo => todo.
+          set('text', text).
+          set('drafting', false));
 
     case TOGGLE_TODO:
-      return state.update(index, todo => todo.set('complete', ! todo.complete));
+      return state.
+        update(index, todo => todo.
+          set('complete', ! todo.complete));
 
     case REMOVE_TODO:
       return state.delete(index);
-
-    default:
-      return state;
   }
+
+  else {
+    console.error("Invalid state, undefined index", action);
+  }
+
+  return state;
 }
 
 export default todos;
