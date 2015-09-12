@@ -5,12 +5,22 @@
 
 @size-icon: 30px;
 
-a {
+a, .a {
   font-size: 12px;
   margin: 0 0.5em;
+
   &.selected {
     text-decoration: underline;
   }
+}
+
+.a {
+  user-select: none;
+}
+
+.scrub {
+  font-family: Avenir, Helvetica, sans-serif;
+  padding: 15px 30px;
 }
 
 .todoitem {
@@ -33,7 +43,12 @@ a {
 }
 .todoitem-delete {
   color: #FFF;
+  font-weight: 500;
   background: none;
+  font-family: Raleway;
+  padding: 10px 5px;
+  font-size: 24px;
+  line-height: 24px;
   &, &:active {
     outline: none;
   }

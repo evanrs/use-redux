@@ -31,12 +31,12 @@ export default class TodoItem extends Component {
             <div className={`todoitem-text ${item.complete && 'todoitem-text__complete'}`}>
               {item.text}
             </div>
-            <input
+            <span
               className="todoitem-delete"
               type="button"
-              value="&nbsp;×&nbsp;"
-              onClick={event => onDelete(item.id)}
-            />
+              onClick={event => onDelete(item.id)}>
+              &nbsp;×&nbsp;
+            </span>
           </div>
         </CSSTransitionGroup>
       </div>

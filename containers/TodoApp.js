@@ -33,15 +33,14 @@ class TodoApp extends Component {
             actions.draftTodo(id, text);
             text.length && actions.addTodo(id, text)
           }}
-          ref={input => input && input.focus()}
         />
         <div style={{textAlign: 'center', width: '100%', marginBottom: '1em'}}>
           <Scrub onScrub={e => dispatch({type: '@@UNDO'})}>
-            <a href="javascript:void(0)">&nbsp;❮&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <span className="a scrub scrub-left">❮</span>
           </Scrub>
           <Filter current={filter} onFilter={type => dispatch({type})}/>
           <Scrub onScrub={e => dispatch({type: '@@REDO'})}>
-            <a href="javascript:void(0)">&nbsp;&nbsp;&nbsp;&nbsp;❯&nbsp;</a>
+            <span className="a scrub scrub-right">❯</span>
           </Scrub>
         </div>
         <TodoList
