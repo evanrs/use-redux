@@ -12,8 +12,11 @@ const createCustomStore =
   compose(...[
       applyMiddleware(thunk),
       createHistory((current, future) =>
+        // Toogle creates unexpected behavior, investigate filter
+        // /TOGGLE/g.test(current.type) && /TOGGLE/g.test(future.type) && current.id === future.id ||
         /REMOVE|ADD/g.test(current.type) && /ADD|DRAFT/g.test(future.type) && current.id === future.id ||
-        /REMOVE|ADD/g.test(current.type) && /TOGGLE/g.test(future.type)),
+        /REMOVE|ADD/g.test(current.type) && /TOGGLE/g.test(future.type)
+      ),
       // module.hot && devTools(),
       // module.hot && persistState(
       //                 window.location.href.match(/[?&]debug_session=([^&]+)\b/))
