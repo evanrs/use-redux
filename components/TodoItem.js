@@ -29,7 +29,7 @@ export default class TodoItem extends Component {
               </svg>
             </div>
             <div className={`todoitem-text ${item.complete && 'todoitem-text__complete'}`}>
-              {item.id} {item.text}
+              {item.text}
             </div>
             <input
               className="todoitem-delete"
