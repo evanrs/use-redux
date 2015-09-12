@@ -12,6 +12,7 @@ const createCustomStore =
   compose(...[
       applyMiddleware(thunk),
       createHistory((current, future) =>
+        /REMOVE|ADD/g.test(current.type) && /ADD|DRAFT/g.test(future.type) && current.id === future.id ||
         /REMOVE|ADD/g.test(current.type) && /TOGGLE/g.test(future.type)),
       // module.hot && devTools(),
       // module.hot && persistState(
