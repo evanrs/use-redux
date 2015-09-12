@@ -1,7 +1,9 @@
 import Mousetrap from 'mousetrap';
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 
-export function createHistory(namespace='_actionHistory') {
+const identity = (x) => x;
+
+export function createHistory(volatile = identity, namespace='_actionHistory') {
   return (next) => (reducer, initialState) => {
     initialState = reducer(initialState, {cursor: 0});
 
@@ -37,9 +39,13 @@ export function createHistory(namespace='_actionHistory') {
 
       let cursor = store.getState().cursor || 0;
 
-      if (! /@@(UN|RE)DO$/.test(action.type))
+      if (! /@@(UN|RE)DO$/.test(action.type)) {
+        let future = history.slice(0, cursor).
+          filter(future => ! volatile(action, future));
+
         history = [
-          ...history.slice(0, cursor), action, ...history.slice(cursor)];
+          ...future, action, ...history.slice(cursor)];
+      }
 
       localStorage.setItem(
         namespace, JSON.stringify(history.slice(cursor, 1000)));
