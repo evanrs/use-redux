@@ -11,7 +11,8 @@ import reducers from '../reducers';
 const createCustomStore =
   compose(...[
       applyMiddleware(thunk),
-      createHistory(),
+      createHistory((current, future) =>
+        /REMOVE|ADD/g.test(current.type) && /TOGGLE/g.test(future.type)),
       // module.hot && devTools(),
       // module.hot && persistState(
       //                 window.location.href.match(/[?&]debug_session=([^&]+)\b/))
