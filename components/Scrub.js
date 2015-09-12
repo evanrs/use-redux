@@ -1,5 +1,5 @@
 import after from 'lodash/function/after';
-import debounce from 'lodash/function/debounce';
+import throttle from 'lodash/function/throttle';
 import React, { Component, PropTypes } from 'react';
 
 export default class Scrub extends Component {
@@ -15,20 +15,36 @@ export default class Scrub extends Component {
       this.props.onScrub() : global.clearInterval(this.interval);
   }
 
-  start() {
-    this.props.onScrub();
-    this.setState({scrubing: true});
-    this.interval = global.setInterval(after(10, this.scrub), 30);
+  start(touch) {
+    if (touch) this.touch = true
+
+    if (this.touch && ! touch) return;
+
+    if (! this.state.scrubing) {
+      this.setState({scrubing: true});
+      this.props.onScrub();
+    }
+
+    global.clearInterval(this.interval);
+    this.interval = global.setInterval(after(10, throttle(this.scrub, 90)), 29);
   }
 
-  stop() {
+  stop(touch) {
+    if (this.touch && ! touch) return;
+
     this.setState({scrubing: false});
     global.clearInterval(this.interval);
   }
 
   render() {
     return (
-      <span onMouseDown={e => this.start()} onMouseUp={e => this.stop()}>
+      <span
+        onMouseDown={e => this.start()}
+        onMouseUp={e => this.stop()}
+        onTouchStart={e => this.start(true)}
+        onTouchCancel={e => this.stop(true)}
+        onTouchEnd={e => this.stop(true)}
+      >
         {this.props.children}
       </span>
     )
