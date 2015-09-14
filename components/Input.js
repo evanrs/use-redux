@@ -3,7 +3,7 @@ import debounce from 'lodash/function/debounce';
 
 export default class Input extends Component {
   componentWillMount() {
-    this.onInput = debounce(() => this.props.onInput(this.state.value), 370);
+    this.onInput = debounce(() => this.props.onInput(this.state.value), 185);
     this.componentWillReceiveProps(this.props);
   }
 
