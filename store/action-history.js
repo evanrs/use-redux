@@ -12,23 +12,30 @@ export function createHistory(volatile = identity, namespace='_actionHistory') {
 
     function historyReducer (state, action) {
       let cursor = state.cursor || 0;
+      let historySize = history.length;
 
       switch (action.type) {
+        case '@@GOTO':
+          cursor = action.cursor;
+          return history.
+            slice(cursor).
+            reduceRight(reducer, {...initialState, cursor, historySize})
+
         case '@@UNDO':
           cursor = cursor < history.length ? cursor + 1 : cursor;
           return history.
             slice(cursor).
-            reduceRight(reducer, {...initialState, cursor})
+            reduceRight(reducer, {...initialState, cursor, historySize})
 
         case '@@REDO':
           cursor = cursor > 0 ? cursor - 1 : 0;
           return history.
             slice(cursor).
-            reduceRight(reducer, {...initialState, cursor})
+            reduceRight(reducer, {...initialState, cursor, historySize})
 
         default:
           return [action, ...history.slice(cursor)].
-            reduceRight(reducer, {...initialState, cursor});
+            reduceRight(reducer, {...initialState, cursor, historySize});
       }
     }
 
@@ -39,7 +46,7 @@ export function createHistory(volatile = identity, namespace='_actionHistory') {
 
       let cursor = store.getState().cursor || 0;
 
-      if (! /@@(UN|RE)DO$/.test(action.type)) {
+      if (! /@@(UNDO|REDO|GOTO)$/.test(action.type)) {
         let future = history.slice(0, cursor).
           filter(future => ! volatile(action, future));
 

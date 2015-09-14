@@ -7,6 +7,7 @@ import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import TodoApp from './TodoApp';
+import TimeTraveler from './TimeTraveler';
 
 const store = require('../store')();
 
@@ -16,6 +17,9 @@ class App extends Component {
       <CSSTransitionGroup transitionName="app" transitionAppear={true}>
         <Provider store={store}>
           {() => <TodoApp/>}
+        </Provider>
+        <Provider store={store}>
+          {() => <TimeTraveler/>}
         </Provider>
         {
           false &&
