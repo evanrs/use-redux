@@ -1,3 +1,15 @@
+.history-scrubber-appear {
+  opacity: 0;
+  transform:
+    translateY(18px)
+    rotateX(-10deg);
+}
+.history-scrubber-appear.history-scrubber-appear-active {
+  opacity: 1;
+  transform: scaleX(1) scaleY(1) rotateX(0deg) translateY(0%);
+  transition: opacity .33s ease-in, transform 0.35s ease-out;
+}
+
 .history-scrubber {
   max-width: 320px;
   width: 100%;
@@ -8,7 +20,7 @@
   bottom: 0;
   transform: translateX(-50%);
   background-image: linear-gradient(to bottom, fade(@body-background, 0) 0%, @body-background 95%);
-  z-index: 3;
+  z-index: 4;
 
   h6 {
     font-weight: 600;

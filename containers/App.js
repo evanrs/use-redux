@@ -14,23 +14,16 @@ const store = require('../store')();
 class App extends Component {
   render() {
     return (
-      <CSSTransitionGroup transitionName="app" transitionAppear={true}>
-        <Provider store={store}>
-          {() => <TodoApp/>}
-        </Provider>
+      <div>
+        <CSSTransitionGroup transitionName="app" transitionAppear={true}>
+          <Provider store={store}>
+            {() => <TodoApp/>}
+          </Provider>
+        </CSSTransitionGroup>
         <Provider store={store}>
           {() => <TimeTraveler/>}
         </Provider>
-        {
-          false &&
-          module.hot &&
-          <DebugPanel top right bottom>
-            <DevTools
-              store={store}
-              monitor={LogMonitor} />
-          </DebugPanel>
-        }
-      </CSSTransitionGroup>
+      </div>
     )
   }
 }
