@@ -6,17 +6,19 @@ import uniqueId from 'lodash/utility/uniqueId';
 import actions from '../actions';
 
 
-const { ADD_TODO, DRAFT_TODO, TOGGLE_TODO, REMOVE_TODO } = actions.todos;
+const {
+  ADD_TODO, EDIT_TODO, SAVE_TODO, DRAFT_TODO, TOGGLE_TODO, REMOVE_TODO
+} = actions.todos;
 
 const ACTION_LIST = List([
-  ADD_TODO, DRAFT_TODO, TOGGLE_TODO, REMOVE_TODO
-]);
+  ADD_TODO, EDIT_TODO, SAVE_TODO, DRAFT_TODO, TOGGLE_TODO, REMOVE_TODO]);
 
 const TodoRecord = Record(
   { id: 0,
     text: '',
     complete: false,
-    drafting: true},
+    drafting: true,
+    editing: false},
   'TodoRecord'
 );
 
@@ -57,6 +59,18 @@ function todos(state, {type, id, text} = {}) {
         set('count', count).
         set('draft', new TodoRecord({id: count}));
     }
+
+    case EDIT_TODO:
+      return state.
+        update('items', items =>
+          items.update(index, todo =>
+            todo.set('editing', true)));
+
+    case SAVE_TODO:
+      return state.
+        update('items', items =>
+          items.update(index, todo =>
+            todo.set('editing', false).set('text', text)));
 
     case TOGGLE_TODO:
       if (index >= 0)
