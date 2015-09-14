@@ -46,6 +46,8 @@ class TodoApp extends Component {
         <TodoList
           items={items}
           filter={filter}
+          onEdit={actions.editTodo}
+          onSave={actions.saveTodo}
           onToggle={actions.toggleTodo}
           onDelete={actions.removeTodo}
         />
