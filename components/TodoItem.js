@@ -33,7 +33,6 @@ export default class TodoItem extends Component {
             </div>
             <span
               className="todoitem-delete"
-              type="button"
               onClick={event => onDelete(item.id)}>
               &nbsp;×&nbsp;
             </span>

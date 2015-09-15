@@ -43,19 +43,27 @@ a, .a {
   }
 }
 .todoitem-delete {
-  color: #FFF;
-  font-weight: 500;
-  background: none;
-  font-family: Raleway;
   padding: 10px 5px;
   font-size: 24px;
   line-height: 24px;
+
+  font-family: Raleway;
+  font-weight: 500;
+  color: #FFF;
+  background: none;
+  cursor: pointer;
+  user-select: none;
+
   &, &:active {
     outline: none;
   }
 }
 
 .check {
+  &, * {
+    user-select: none;
+  }
+
   width: @size-icon;
   height: @size-icon;
   background: @ui-background;
