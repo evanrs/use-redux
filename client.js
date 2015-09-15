@@ -2,7 +2,8 @@ import 'babel-core/polyfill';
 
 require('./style');
 
-if (! localStorage.getItem('_actionHistory')) {
+if (! localStorage.getItem('_actionHistory') ||
+    /reset/g.test(location.search)) {
   localStorage.setItem('_actionHistory', JSON.stringify(require('./demo')));
 }
 
