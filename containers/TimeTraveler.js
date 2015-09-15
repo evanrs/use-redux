@@ -16,7 +16,7 @@ class HistoryApp extends Component {
           <input
             style={{width: '100%'}}
             ref="slider" type="range" min="0" max={size} step="1" value={size - cursor}
-            onChange={e => {
+            onChange={event => {
               dispatch({type: '@@GOTO', cursor: size - event.target.value})
             }}
           />
