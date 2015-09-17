@@ -4,10 +4,12 @@ import mapValues from 'lodash/object/mapValues';
 
 import filter from './filter';
 import todos from './todos';
+import auth from './auth';
 
 const reducers = {
   filter,
-  todos
+  todos,
+  auth
 }
 
 function mutableCombinator(state = {}, action) {
