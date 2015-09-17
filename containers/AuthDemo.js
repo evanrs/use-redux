@@ -1,7 +1,10 @@
+import { bindActionCreators } from 'redux';
+const cookie = require('cookie');
+const { connect } = require('react-redux');
 const React = require('react/addons');
 const { Component } = React;
-const { connect } = require('react-redux');
-const cookie = require('cookie');
+
+import actions from '../actions';
 
 const env = {
   apiURL:
@@ -11,55 +14,12 @@ const env = {
 }
 
 class AuthDemo extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      validated: false
-    }
-  }
-
-  logout() {
-    fetch(`${env.apiURL}/logout`, {
-      credentials: 'include',
-      mode: 'cors',
-      redirect: 'follow',
-      headers: {'X-Requested-With': 'XMLHttpRequest'}
-    }).
-    then(res => {
-      debugger;
-    })
-  }
-
-  validate() {
-    fetch(`${env.apiURL}/auth/validate`, {credentials: 'include', mode: 'cors'}).
-    then(res => this.setState({validated: true}))
-  }
-
-  fetchProfile() {
-    this.setState({fetching: true});
-    fetch(`${env.apiURL}/profile`, {credentials: 'include', mode: 'cors'}).
-    then(res => {
-      if (res.status >= 200 && res.status < 400)
-        return res.json()
-      else throw new Error(res.status);
-    }).
-    then(profile => this.setState({profile, fetching: false})).
-    catch(error => this.setState({error, fetching: false}))
-  }
-
   componentDidMount() {
-    this.validate();
+    this.props.actions.validate()
   }
 
   render() {
-    let authorized;
-    let {fetching, fetchError, profile, validated} = {...this.state}
-
-    try {
-      authorized = JSON.parse(cookie.parse(document.cookie).authorized) }
-    catch(e) {
-      authorized = false }
+    let {validated, authorized} = this.props;
 
     return (
       <div className="authbar">
@@ -87,11 +47,14 @@ class AuthDemo extends Component {
 }
 
 function mapState({auth}) {
-  return {auth};
+  return auth;
 }
 
 function mapDispatch(dispatch) {
-  return {dispatch}
+  return {
+    actions: bindActionCreators(actions.auth, dispatch),
+    dispatch
+  }
 }
 
 module.exports = connect(mapState, mapDispatch)(AuthDemo);
