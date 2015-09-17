@@ -28,11 +28,11 @@ class App extends Component {
                 {() => <TodoApp/>}
               </Provider>
             </CSSTransitionGroup>
-            <Provider store={store}>
-              {() => <TimeTraveler/>}
-            </Provider>
           </Authorized>
         }
+        </Provider>
+        <Provider store={store}>
+          {() => <TimeTraveler/>}
         </Provider>
       </div>
     )
