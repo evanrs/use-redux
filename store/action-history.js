@@ -47,11 +47,12 @@ export function createHistory(volatile = identity, namespace='_actionHistory') {
       let cursor = store.getState().cursor || 0;
 
       if (! /@@(UNDO|REDO|GOTO)$/.test(action.type)) {
+        let past = history.slice(cursor).
+          filter(past => ! volatile(action, past));
         let future = history.slice(0, cursor).
           filter(future => ! volatile(action, future));
 
-        history = [
-          ...future, action, ...history.slice(cursor)];
+        history = [...future, action, ...past];
       }
 
       localStorage.setItem(
@@ -68,6 +69,11 @@ export function createHistory(volatile = identity, namespace='_actionHistory') {
     Mousetrap.bindGlobal('shift+command+z', event => {
       event.preventDefault();
       dispatch({type: '@@REDO'})
+    });
+
+    Mousetrap.bindGlobal('ctrl+esc', event => {
+      event.preventDefault();
+      console.log(JSON.stringify(store.getState(), null, 4 ), JSON.stringify(history, null, 4))
     });
 
     return {...store, dispatch}
