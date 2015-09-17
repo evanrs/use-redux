@@ -4,7 +4,10 @@ const { connect } = require('react-redux');
 const cookie = require('cookie');
 
 const env = {
-  apiURL: '//localhost:3000'
+  apiURL:
+    /localhost/.test(location.hostname) ?
+      '//localhost:3000'
+    : '//' + ['api', ...location.hostname.split('.').slice(-2)].join('.')
 }
 
 class AuthDemo extends Component {
