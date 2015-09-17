@@ -1,29 +1,24 @@
 const cookie = require('cookie');
 const actions = require('../actions');
 
-let {AUTH_VALIDATING, AUTH_VALIDATED} = actions.auth;
+let {AUTH_VALIDATION_INIT, AUTH_VALIDATION_START, AUTH_VALIDATION_DONE} = actions.auth;
 
 const initialState = {
-  authorized: getAuthorizedCookie(),
+  authorized: false,
   validated: false,
   validating: false
 };
 
-module.exports = function auth(state=initialState, action) {
-  switch (action.type) {
-    case AUTH_VALIDATING:
+module.exports = function auth(state=initialState, {type, authorized}) {
+  switch (type) {
+    case AUTH_VALIDATION_INIT:
+      return {...state, validating: false, validated: false, authorized}
+    case AUTH_VALIDATION_START:
       return {...state, validating: true}
-    case AUTH_VALIDATED:
-      return {...state, validating: false, validated: true, authorized: getAuthorizedCookie()}
+    case AUTH_VALIDATION_DONE:
+      return {...state, validating: false, validated: true, authorized}
 
     default:
       return state;
   }
-}
-
-function getAuthorizedCookie() {
-  try {
-    return JSON.parse(cookie.parse(document.cookie).authorized) }
-  catch(e) {
-    return false }
 }

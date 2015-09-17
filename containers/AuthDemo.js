@@ -14,10 +14,6 @@ const env = {
 }
 
 class AuthDemo extends Component {
-  componentDidMount() {
-    this.props.actions.validate()
-  }
-
   render() {
     let {validated, authorized} = this.props;
 
