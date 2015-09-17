@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import TodoApp from './TodoApp';
 import TimeTraveler from './TimeTraveler';
 import AuthDemo from './AuthDemo';
+import Authorized from './Authorized';
 
 const store = require('../store')();
 
@@ -19,13 +20,19 @@ class App extends Component {
         <Provider store={store}>
           {() => <AuthDemo/>}
         </Provider>
-        <CSSTransitionGroup transitionName="app" transitionAppear={true}>
-          <Provider store={store}>
-            {() => <TodoApp/>}
-          </Provider>
-        </CSSTransitionGroup>
         <Provider store={store}>
-          {() => <TimeTraveler/>}
+        {() =>
+          <Authorized>
+            <CSSTransitionGroup transitionName="app" transitionAppear={true}>
+              <Provider store={store}>
+                {() => <TodoApp/>}
+              </Provider>
+            </CSSTransitionGroup>
+            <Provider store={store}>
+              {() => <TimeTraveler/>}
+            </Provider>
+          </Authorized>
+        }
         </Provider>
       </div>
     )
