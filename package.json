@@ -21,8 +21,10 @@
   },
   "homepage": "https://github.com/evanrs/use-redux#readme",
   "dependencies": {
+    "cookie": "^0.2.0",
     "express": "^4.13.3",
     "immutable": "^3.7.5",
+    "isomorphic-fetch": "^2.1.1",
     "less": "^2.5.1",
     "less-loader": "^2.2.0",
     "lodash": "^3.10.1",

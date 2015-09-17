@@ -1,4 +1,5 @@
-import 'babel-core/polyfill';
+require('babel-core/polyfill');
+require('isomorphic-fetch');
 
 require('./style');
 

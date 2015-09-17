@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import TodoApp from './TodoApp';
 import TimeTraveler from './TimeTraveler';
+import AuthDemo from './AuthDemo';
 
 const store = require('../store')();
 
@@ -15,6 +16,9 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Provider store={store}>
+          {() => <AuthDemo/>}
+        </Provider>
         <CSSTransitionGroup transitionName="app" transitionAppear={true}>
           <Provider store={store}>
             {() => <TodoApp/>}
