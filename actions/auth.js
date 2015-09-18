@@ -17,20 +17,20 @@ export function initialize() {
 }
 
 export function login() {
-  let window =
+  let popup =
     global.open(
       `${env.apiURL}/auth/github`
     , 'Login'
     , 'location=0,status=0,width=960,height=720');
 
   return dispatch => {
-    let interval =
-      global.setInterval(
-        () => window.closed &&
-              ( global.clearInterval(interval)
-              , dispatch(validate()))
-      , 50
-      );
+    if (popup) {
+      let interval =
+        global.setInterval(
+          () => popup.closed && (
+            global.clearInterval(interval), dispatch(validate())), 50);
+    }
+    else global.location.href = `${env.apiURL}/auth/github`
   }
 }
 

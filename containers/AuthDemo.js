@@ -14,11 +14,33 @@ const env = {
 }
 
 class AuthDemo extends Component {
+  login() {
+    if (this.state && this.state.timeout !== void 0) return;
+
+    let listener = (event) =>
+      event.origin === global.location.origin && (
+        global.clearTimeout(this.state.timeout),
+        this.setState({timeout: void 0}),
+        this.props.actions.validate());
+
+    global.addEventListener('message', listener);
+
+    this.setState({
+      timeout:
+        setTimeout(() => (
+          global.removeEventListener('message', listener),
+          this.setState({timeout: void 0}),
+          this.props.actions.login()), 500)
+    });
+  }
+
   render() {
     let {validated, authorized, actions} = this.props;
 
     return (
       <div className="authbar">
+        {this.state && this.state.timeout !== void 0 &&
+          <iframe ref="iframe" src={`${env.apiURL}/auth/github`} style={{display: 'none'}}/>}
         <img
           className="authbar-avatar"
           src={authorized ?
@@ -29,8 +51,10 @@ class AuthDemo extends Component {
           {authorized ?
             validated ?
               <span className="a" onClick={actions.logout}>Logout</span>
-            : <span className="ui-text">…</span>
-          : <span className="a" onClick={actions.login}>Login</span>
+            : <span className="ui-text">• • •</span>
+          : <span className="a" onClick={e => this.login()}>
+              {this.state && this.state.timeout ? '• • •' : 'Login'}
+            </span>
           }
           {authorized ?
             <span className="ui-text">{ authorized.displayName }</span> : ''}
