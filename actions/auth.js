@@ -16,6 +16,36 @@ export function initialize() {
   return {type: AUTH_VALIDATION_INIT, authorized: getAuthorizedCookie()}
 }
 
+export function login() {
+  let window =
+    global.open(
+      `${env.apiURL}/auth/github`
+    , 'Login'
+    , 'location=0,status=0,width=960,height=720');
+
+  return dispatch => {
+    let interval =
+      global.setInterval(
+        () => window.closed &&
+              ( global.clearInterval(interval)
+              , dispatch(validate()))
+      , 50
+      );
+  }
+}
+
+export function logout() {
+  let request =
+    fetch(
+      `${env.apiURL}/logout`
+    , { credentials: 'include'
+      , headers: {'X-Requested-With': 'XMLHttpRequest'}
+      , mode: 'cors'}
+    );
+
+  return dispatch => request.then(res => dispatch(validate()));
+}
+
 export function validate() {
   return (dispatch, getState) => {
     if (getState().auth.validating)
@@ -23,20 +53,23 @@ export function validate() {
 
     dispatch({type: AUTH_VALIDATION_START});
 
-    throttledFetch(dispatch);
+    fetchValidation(dispatch);
   }
 }
 
-const throttledFetch = throttle(dispatch =>
-  fetch(`${env.apiURL}/auth/validate`, { credentials: 'include', mode: 'cors'}).
+const fetchValidation =
+  throttle(dispatch =>
+    fetch(
+      `${env.apiURL}/auth/validate`
+    , { credentials: 'include', mode: 'cors' }).
     then(res =>
       dispatch({
-        type: AUTH_VALIDATION_DONE,
-        authorized: getAuthorizedCookie()})),
-  500
-)
+        type: AUTH_VALIDATION_DONE
+      , authorized: getAuthorizedCookie()}))
+, 500
+);
 
-export function getAuthorizedCookie() {
+function getAuthorizedCookie() {
   try {
     return JSON.parse(cookie.parse(document.cookie).authorized) }
   catch(e) {
