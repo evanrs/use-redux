@@ -15,7 +15,7 @@ const env = {
 
 class AuthDemo extends Component {
   render() {
-    let {validated, authorized} = this.props;
+    let {validated, authorized, actions} = this.props;
 
     return (
       <div className="authbar">
@@ -28,11 +28,9 @@ class AuthDemo extends Component {
         <span className="authstate ui-text">
           {authorized ?
             validated ?
-              <a href={`${env.apiURL}/logout`}>
-                Logout
-              </a>
+              <span className="a" onClick={actions.logout}>Logout</span>
             : <span className="ui-text">…</span>
-          : <a href={`${env.apiURL}/auth/github`}>Login</a>
+          : <span className="a" onClick={actions.login}>Login</span>
           }
           {authorized ?
             <span className="ui-text">{ authorized.displayName }</span> : ''}
