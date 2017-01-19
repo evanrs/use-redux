@@ -1,5 +1,5 @@
-import after from 'lodash/function/after';
-import throttle from 'lodash/function/throttle';
+import after from 'lodash/after';
+import throttle from 'lodash/throttle';
 import React, { Component, PropTypes } from 'react';
 
 export default class Scrub extends Component {

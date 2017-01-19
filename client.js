@@ -1,5 +1,3 @@
-import 'babel-core/polyfill';
-
 require('./style');
 
 if (! localStorage.getItem('_actionHistory') ||
@@ -7,12 +5,15 @@ if (! localStorage.getItem('_actionHistory') ||
   localStorage.setItem('_actionHistory', JSON.stringify(require('./demo')));
 }
 
-require.ensure(['react', './containers/App'], function (require) {
-  const React = require('react');
-  const App = require('./containers/App');
+Promise.all([
+  import('react'),
+  import('react-dom'),
+  import('react-tap-event-plugin'),
+  import('./containers/App')
+]).then(([React, ReactDOM, injectTapEventPlugin, { default: App }]) => {
+  injectTapEventPlugin();
 
-  React.initializeTouchEvents(true);
-  React.render(<App />, document.getElementById('root'));
-});
-
-
+  ReactDOM.render(
+    React.createElement(App),
+    document.getElementById('root'));
+})

@@ -1,43 +1,51 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const filter = require('lodash/filter');
 
-var HOT = process.env.HOT;
-
-function identity (x) { return x; }
+const HOT = process.env.HOT;
 
 module.exports = {
   devtool: HOT ? 'eval-source-map' : 'source-map',
-  entry: [
+  entry: filter([
+    HOT && 'react-hot-loader/patch',
     HOT && 'webpack-hot-middleware/client',
     './client'
-  ].filter(identity),
+  ]),
   output: {
     path: path.join(__dirname, 'static'),
     filename: 'bundle.js',
     publicPath: '/static/'
   },
-  plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
+  plugins: filter([
     HOT && new webpack.HotModuleReplacementPlugin(),
-    HOT && new webpack.NoErrorsPlugin(),
+    HOT && new webpack.NamedModulesPlugin(),
     ! HOT && new webpack.optimize.UglifyJsPlugin()
-  ].filter(identity),
+  ]),
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel',
-      exclude: /node_modules/,
-      include: __dirname,
-      query: {
-        optional: ['runtime'],
-        stage: 0
+    rules: [
+      {
+        test: /\.js$/,
+        use: [
+          'babel-loader',
+        ],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => filter([
+                ! HOT && require('autoprefixer')
+              ])
+            }
+          },
+          'less-loader'
+        ]
       }
-    },
-    {
-      test: /\.less$/,
-      loaders: ['style', 'css', 'autoprefixer', 'less'],
-      exclude: /node_modules/,
-      include: __dirname
-    }]
+    ]
   }
 };

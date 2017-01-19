@@ -1,7 +1,7 @@
 import Immutable, {Iterable, Map, List, Record} from 'immutable';
-import isNumber from 'lodash/lang/isNumber';
-import matches from 'lodash/utility/matches';
-import uniqueId from 'lodash/utility/uniqueId';
+import isNumber from 'lodash/isNumber';
+import matches from 'lodash/matches';
+import uniqueId from 'lodash/uniqueId';
 
 import actions from '../actions';
 

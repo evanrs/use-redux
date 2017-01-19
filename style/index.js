@@ -1,7 +1,9 @@
-
-if (/green/.test(location.href))
+if (/green/.test(location.href)) {
   require('./mint-theme.less');
-else if (/red/.test(location.href))
+}
+else if (/red/.test(location.href)) {
   require('./red-theme.less');
-else
+}
+else {
   require('./blue-theme.less')
+}

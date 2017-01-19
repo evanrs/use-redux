@@ -1,26 +1,30 @@
-var path = require('path');
-var express = require('express');
-var webpack = require('webpack');
-var config = require('./webpack.config');
+const path = require('path');
+const webpack = require('webpack');
+const express = require('express');
+const devMiddleware = require('webpack-dev-middleware');
+const hotMiddleware = require('webpack-hot-middleware');
 
-var PORT = process.env.PORT || 3000;
-var HOT = process.env.HOT;
+const config = require('./webpack.config');
 
-var app = express();
+const PORT = process.env.PORT || 3000;
+const HOT = process.env.HOT;
+
+const app = express();
 
 if (HOT) {
-  var compiler = webpack(config);
-  app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: config.output.publicPath
+  const compiler = webpack(config);
+  app.use(devMiddleware(compiler, {
+    // noInfo: true,
+    publicPath: config.output.publicPath,
+    historyApiFallback: true
   }));
 
-  app.use(require('webpack-hot-middleware')(compiler));
+  app.use(hotMiddleware(compiler));
 }
 
 app.use('/static', express.static('static'));
 
-app.get('/', function(req, res) {
+app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 

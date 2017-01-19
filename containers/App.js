@@ -1,29 +1,34 @@
-import React, { Component } from 'react/addons';
-const {CSSTransitionGroup} = React.addons;
+import React, { Component } from 'react';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import { devTools, persistState } from 'redux-devtools';
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import TodoApp from './TodoApp';
 import TimeTraveler from './TimeTraveler';
+import { AppContainer } from 'react-hot-loader';
 
-const store = require('../store')();
+import createStore from  '../store';
+
+const store = createStore();
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <CSSTransitionGroup transitionName="app" transitionAppear={true}>
-          <Provider store={store}>
-            {() => <TodoApp/>}
-          </Provider>
-        </CSSTransitionGroup>
+      <AppContainer>
+
         <Provider store={store}>
-          {() => <TimeTraveler/>}
+        <div>
+          <CSSTransitionGroup
+              transitionName="app"
+              transitionAppear={true}
+              transitionAppearTimeout={350}
+              transitionEnterTimeout={350}
+              transitionLeaveTimeout={350}>
+            <TodoApp/>
+          </CSSTransitionGroup>
+          <TimeTraveler/>
+        </div>
         </Provider>
-      </div>
+      </AppContainer>
     )
   }
 }

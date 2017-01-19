@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import debounce from 'lodash/function/debounce';
+import debounce from 'lodash/debounce';
 
 export default class Input extends Component {
   componentWillMount() {
@@ -23,7 +23,7 @@ export default class Input extends Component {
   handleUpdate() {
     // Move caret to end of string on text replace
     if (this.state.value === this.props.value) {
-      let input = this.refs.input.getDOMNode();
+      let input = this.input;
       let caret = input.value.length;
       if (caret > 0 && input.selectionStart === 0) {
         input.setSelectionRange(caret, caret);
@@ -32,7 +32,7 @@ export default class Input extends Component {
   }
 
   focus() {
-    this.refs.input.getDOMNode().focus();
+    this.input.focus();
   }
 
   render() {
@@ -46,7 +46,7 @@ export default class Input extends Component {
         }}
       >
         <input
-          ref="input"
+          ref={(elm) => this.input = elm}
           type="text"
           value={this.state.value}
           onChange={event => {

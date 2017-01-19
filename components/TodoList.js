@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react/addons';
-const {CSSTransitionGroup} = React.addons;
+import React, { Component, PropTypes } from 'react';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
-import matches from 'lodash/utility/matches';
+import matches from 'lodash/matches';
 
 import TodoItem from './TodoItem';
 
@@ -27,15 +27,25 @@ export default class TodoList extends Component {
 
     return (
       <div>
-        <CSSTransitionGroup transitionName="todoList" transitionAppear={true}>
-          {active.map(item => <TodoItem key={item.id} {...{...this.props, item}}/>)}
+        <CSSTransitionGroup
+            transitionName="todoList"
+            transitionAppear={true}
+            transitionAppearTimeout={150}
+            transitionEnterTimeout={150}
+            transitionLeaveTimeout={150}>
+
+          {active.map(this.renderItem)}
+
           <div key="rule" className="rule">
             <hr/>
           </div>
-          {disabled.map(item => <TodoItem key={item.id} {...{...this.props, item}}/>)}
+
+          {disabled.map(this.renderItem)}
         </CSSTransitionGroup>
       </div>
     )
   }
-}
 
+  renderItem = (item) =>
+    <TodoItem key={item.id} {...{...this.props, item}}/>
+}
