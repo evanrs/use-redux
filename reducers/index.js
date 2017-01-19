@@ -1,6 +1,6 @@
 import Immutable, {Map} from 'immutable';
-import forEach from 'lodash/collection/forEach';
-import mapValues from 'lodash/object/mapValues';
+import forEach from 'lodash/forEach';
+import mapValues from 'lodash/mapValues';
 
 import filter from './filter';
 import todos from './todos';

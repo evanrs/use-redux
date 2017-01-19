@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import difference from 'lodash/array/difference';
-import debounce from 'lodash/function/debounce';
+import difference from 'lodash/difference';
+import debounce from 'lodash/debounce';
 
 import Input from '../components/Input';
 import TodoList from '../components/TodoList';

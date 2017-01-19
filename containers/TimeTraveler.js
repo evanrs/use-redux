@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-const {CSSTransitionGroup} = React.addons;
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 import { connect } from 'react-redux';
 
 import actions from '../actions';
@@ -10,7 +10,13 @@ class HistoryApp extends Component {
     const { dispatch, cursor, size } = this.props;
 
     return (
-      <CSSTransitionGroup className='history-scrubber' transitionName="history-scrubber" transitionAppear={true}>
+      <CSSTransitionGroup
+        className='history-scrubber'
+        transitionName="history-scrubber"
+        transitionAppear={true}
+        transitionAppearTimeout={350}
+        transitionEnterTimeout={350}
+        transitionLeaveTimeout={350}>
       <div>
           <h6>scrubber</h6>
           <input

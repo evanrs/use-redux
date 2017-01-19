@@ -1,4 +1,4 @@
-import React, { Component } from 'react/addons';
+import React, { Component } from 'react';
 
 class DebugAnimationComponent extends Component {
   constructor(props) {
