@@ -1,17 +1,8 @@
 {
-  "stage": 0,
-  "loose": "all",
-  "plugins": [
-    "react-transform"
+  "presets": [
+    ["es2015", {"modules": false}],
+    "stage-0",
+    "react"
   ],
-  "extra": {
-    "react-transform": [{
-      "target": "react-transform-webpack-hmr",
-      "imports": ["react"],
-      "locals": ["module"]
-    }, {
-      "target": "react-transform-catch-errors",
-      "imports": ["react", "redbox-react"]
-    }]
-  }
+  "plugins": ["react-hot-loader/babel"]
 }
